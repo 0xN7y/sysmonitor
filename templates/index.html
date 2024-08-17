@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sysmonitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000;
+            color: #00ffcc;
+            margin: 20px;
+        
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .prs {
+            width: 50%;
+            overflow: scroll;
+        }
+        .others {
+            width: 50%;
+            /*border: 1px solid;*/
+            cursor: pointer;
+
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+        .usrs {
+            width: 100%;
+            height: 190px;
+            /*background-color: cyan;*/
+            overflow: scroll;
+        }
+        .conn {
+             width: 100%;
+            height: 190px;
+          /*  background-color: yellow;*/
+            overflow: scroll;
+        
+        }
+        .pty {
+            font-size: 76%;
+            border: 1px solid;
+        }
+        .status-box {
+            border: 1px solid #00ffcc;
+            border-radius: 8px;
+            width: 300px;
+            height: 10vh;
+            text-align: center;
+            background-color: #001f1f;
+        }
+        .machin {
+            display: flex;
+            padding: 10px;
+        }
+        
+       
+    </style>
+</head>
+<body>
+    <h1>Monitor process</h1><p></p>
+    <div class="machin">
+        
+        <div class="status-box">
+            Ram-usage:<div id="ram"></div>
+        </div>
+        <div class="status-box">
+            Disk-usage<div id="storage"></div>
+        </div>
+        <div class="status-box">
+            Cpu-usage<div id="cpu"></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="prs">
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>pid</th>
+                        <th>process name</th>
+                        <th>user</th>
+                        <th>status</th>
+                        <th>md5</th>
+                    </tr>
+                </thead>
+                <tbody id="ptable">
+                </tbody>
+            </table>
+        </div>
+        <div class="others">
+            <h2>pty sessions</h2>
+            <div class="usrs" id="usrs">
+                
+                
+            </div>
+            <h2>Connections</h2>
+            <div class="conn" id="conn">
+                <h1>a</h1>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function upPr() {
+            fetch('/processes')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('ptable');
+                    tableBody.innerHTML = ''; 
+                    data.forEach(process => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `<td>${process.pid}</td><td>${process.name}</td><td>${process.username}</td><td>${process.status}</td><td>${process.hash}</td>`;
+                        tableBody.appendChild(row);
+                    });
+                });
+
+        }
+
+        function uup() {
+            var ptys = document.getElementById("usrs"); 
+            fetch('/usr').then (response => response.json()).then(data => {
+                ptys.innerHTML = '';
+                data.forEach(p => {
+                    const pty = document.createElement("p");
+                    pty.classList.add("pty")
+                    pty.innerHTML = p;
+                    ptys.appendChild(pty);
+                  
+                })
+            })
+
+            var con = document.getElementById("conn"); 
+            fetch('/conn').then (response => response.json()).then(data => {
+                con.innerHTML = '';
+                data.forEach(p => {
+                    // console.log(p);
+                    const c = document.createElement("p");
+                    c.classList.add("pty")
+                    c.innerHTML = p;
+                    con.appendChild(c);
+                  
+                })
+            })
+
+            fetch('/meminfo')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.cpu_usage)
+                    document.getElementById('cpu').innerText = data.cpu_usage + '%';
+                    document.getElementById('ram').innerText = data.memory_usage + '%';
+                    document.getElementById('storage').innerText = data.disk_usage + '%';
+               
+                });
+
+        }
+
+        
+
+        setInterval(uup, 6000);
+        setInterval(upPr, 5000);
+        updateProcesses();
+        uup()
+      
+    </script>
+</body>
+</html>
+
+<!-- N7y -->
