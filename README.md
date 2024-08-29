@@ -9,5 +9,5 @@ requirement
 psutil, flask
 ```
 
-Defult password `admin` 
+Default login password `admin` 
 
