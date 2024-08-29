@@ -6,5 +6,8 @@ Random helpfull  program i created that monitor system events
 
 requirement
 ```sh
-psutil
+psutil, flask
 ```
+
+Defult password `admin` 
+
