@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chpasswd</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #0d0d0d;
+            color: #00ff00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .loginform {
+            background-color: #111111;
+            border: 1px solid #00ff00;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #00ff00;
+            width: 350px;
+        }
+
+        .loginform h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #00ff00;
+            text-align: center;
+            text-shadow: 0px 0px 5px #00ff00;
+        }
+
+        .loginform input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            background-color: #0d0d0d;
+            color: #00ff00;
+        }
+
+        .loginform input::placeholder {
+            color: #008f11;
+        }
+
+        .loginform button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0d0d0d;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        .loginform button:hover {
+            background-color: #00ff00;
+            color: #0d0d0d;
+        }
+
+        .error-message {
+            color: #ff0000;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="loginform">
+        <h2>Change passwd</h2>
+        <form id="passwdForm" method="POST" onsubmit="return validateForm()">
+            <input type="password" id="prvpasswd" name="prvpasswd" placeholder="Previous passwd" required>
+            <input type="password" id="newpasswd" name="newpasswd" placeholder="New passwd" required>
+            <input type="password" id="cpasswd" name="cpasswd" placeholder="Confirm New passwd" required>
+            <div class="error-message" id="errorMessage"></div>
+            <button type="submit">Change passwd</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            const newpasswd = document.getElementById('newpasswd').value;
+            const cpasswd = document.getElementById('cpasswd').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (newpasswd.length < 8) {
+                errorMessage.textContent = "passwd must be at least 8 characters long.";
+                return false;
+            }
+
+            if (newpasswd !== cpasswd) {
+                errorMessage.textContent = "New passwd and Confirm passwd do not match.";
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>
