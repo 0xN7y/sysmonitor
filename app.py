@@ -8,10 +8,10 @@ import json
 import datetime
 import hashlib
 import sqlite3
-
+from os import urandom
 
 app = Flask(__name__)
-app.secret_key = str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
+app.secret_key = hashlib.md5(str(urandom(64))+str(datetime.now().strftime("%Y%m%d%H%M%S"))).hexdigest() 
 
 
 #product = os.popen("cat /sys/class/dmi/id/product_name").read().strip()
