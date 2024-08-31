@@ -75,7 +75,7 @@
 <body>
     <div class="loginform">
         <h2>LOGIN:  {{ product }} </h2>
-        <form id="passwdForm" method="POST" onsubmit="return validateForm()">
+        <form id="passwdForm" method="POST">
             <input type="password" id="passwd" name="passwd" placeholder="passwd" required>
             <div class="error-message" id="errorMessage">{{ error }}</div>
             <button type="submit">login</button>
