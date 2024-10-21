@@ -55,7 +55,7 @@ def usrs():
     ret = []
     usr = psutil.users()
     for i in usr:
-        ret.append(str("[Name] : "+i.name+", [PID] : "+str(i.pid)+", [Host] : "+i.host+", [Terminal] : "+i.terminal+", [Started] : "+str(datetime.datetime.fromtimestamp(i.started).strftime("%A, %B %d, %Y %I:%M:%S"))))
+        ret.append(str("[Name] : "+i.name+", [PID] : "+str(i.pid)+", [Host] : "+i.host+", [Terminal] : "+i.terminal+", [Started] : "+str(datetime.fromtimestamp(i.started).strftime("%A, %B %d, %Y %I:%M:%S"))))
     return ret    
 
 
@@ -148,7 +148,7 @@ def login():
             md_inppasswd = hashlib.md5(inppasswd.encode()).hexdigest()
             if working_passwd == md_inppasswd:
                 # succs
-                session['loginsession'] = str(working_passwd + str(datetime.datetime.now().strftime("%Y%m%d%H%M%S")))
+                session['loginsession'] = str(working_passwd + str(datetime.now().strftime("%Y%m%d%H%M%S")))
                 return redirect(url_for('index'))
             else:
                 error = "Password Error"
