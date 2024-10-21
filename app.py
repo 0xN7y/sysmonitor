@@ -5,7 +5,7 @@ import psutil
 import time
 import hashlib
 import json
-import datetime
+from datetime import datetime
 import hashlib
 import sqlite3
 from os import urandom
